@@ -8,6 +8,7 @@ using NZwalks.API.Data;
 using NZwalks.API.Model.Domain;
 using NZwalks.API.Model.DTO;
 using NZwalks.API.Repositories;
+using System.Text.Json;
 
 namespace NZwalks.API.Controllers
 
@@ -23,23 +24,30 @@ namespace NZwalks.API.Controllers
         private readonly NZWalksDBcontext dbContext;
         private readonly IRegionRepo regionRepo;
         private readonly IMapper mapper;
+        private readonly ILogger<RegionsController> logger;
 
-        public RegionsController(NZWalksDBcontext dbContext,IRegionRepo regionRepo,IMapper mapper)
+        public RegionsController(NZWalksDBcontext dbContext,IRegionRepo regionRepo,IMapper mapper, ILogger<RegionsController>logger)
         {
             this.dbContext = dbContext;
             this.regionRepo = regionRepo;
             this.mapper = mapper;
+            this.logger = logger;
         }
         //GET:https:://portnumber/api/regions
         [HttpGet]
-        [Authorize(Roles ="Reader")]
+        //[Authorize(Roles ="Reader")]
 
 
         //we make method asynchronous so our main thread doesn't block out due to long execution of databases querrt 
         //or other request
         public async Task<IActionResult> GetAll()
-        {   //getting data from database
+        {
+            logger.LogInformation("Getall Regions method was incoked");
+            //logger.
+            //getting data from database
             var regionsDomain = await regionRepo.GetAllAsync();
+
+            logger.LogInformation($"Finish get All Region Method with data :{JsonSerializer.Serialize(regionsDomain)}");
 
             //map domain model or database to dtos fro abtsraction return me hi krdia to look clean and concise
 

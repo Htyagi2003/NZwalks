@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NZwalks.API.Model.Domain;
 using NZwalks.API.Model.DTO;
+using NZwalks.API.Repositories;
 
 namespace NZwalks.API.Controllers
 {
@@ -10,8 +11,14 @@ namespace NZwalks.API.Controllers
     [ApiController]
     public class ImagesController : ControllerBase
     {
+        private readonly IImageRepo imagerepo;
 
-        [HttpGet]
+        public ImagesController(IImageRepo imagerepo)
+        {
+            this.imagerepo = imagerepo;
+        }
+
+        [HttpPost]
         [Route("Upload")]
 
         public async Task<IActionResult> Upload([FromForm] UploadImageRequestDto request)
@@ -28,7 +35,10 @@ namespace NZwalks.API.Controllers
                     FileName = request.File.FileName,
                     FileDescription = request.FileName,
                 };
-            
+               
+                await imagerepo.Upload(ImageDomainModel);
+
+               return Ok(ImageDomainModel);
             
             
             }
