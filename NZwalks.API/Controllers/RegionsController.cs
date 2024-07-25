@@ -43,11 +43,14 @@ namespace NZwalks.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             logger.LogInformation("Getall Regions method was incoked");
+
+            logger.LogWarning("This is warning Call");
             //logger.
             //getting data from database
             var regionsDomain = await regionRepo.GetAllAsync();
 
             logger.LogInformation($"Finish get All Region Method with data :{JsonSerializer.Serialize(regionsDomain)}");
+
 
             //map domain model or database to dtos fro abtsraction return me hi krdia to look clean and concise
 
@@ -59,7 +62,7 @@ namespace NZwalks.API.Controllers
         ////https://localhost:portnumber/api/region/{id}
         [HttpGet]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Reader")]
+        //[Authorize(Roles = "Reader")]
 
 
         public async Task<IActionResult> GetById([FromRoute] Guid id)
@@ -83,7 +86,7 @@ namespace NZwalks.API.Controllers
 
         [HttpPost]
         [ValidateModel]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
 
         public async Task<IActionResult> Create([FromBody] AddRegionDto addRegionDto)
         {
@@ -114,7 +117,7 @@ namespace NZwalks.API.Controllers
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
 
 
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateDto updateDto)
@@ -149,7 +152,7 @@ namespace NZwalks.API.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer")]
+       // [Authorize(Roles = "Writer")]
 
 
         public async Task<IActionResult> delete([FromRoute] Guid id)

@@ -51,6 +51,9 @@ namespace NZwalks.API.Controllers
 
             var walkdto = mapper.Map<List<WalkDto>>(walkDomainModel);
 
+            //Throw exception to test global exception handler
+            throw new Exception("This is Custom Exception");
+
             return Ok(walkdto);
         }
 
